@@ -514,7 +514,7 @@
         <height>161</height>
        </rect>
       </property>
-      <layout class="QGridLayout" name="gridLayout_8">
+      <layout class="QGridLayout" name="hri_risk_layer_gridlayout">
        <item row="4" column="0">
         <widget class="QLabel" name="label_8">
          <property name="text">
