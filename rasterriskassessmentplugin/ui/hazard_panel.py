@@ -1,7 +1,12 @@
 import logging
 
-from qgis.PyQt.QtWidgets import QDialog, QProgressBar, QGridLayout, QLabel
-from qgis.gui import QgsMapLayerComboBox, QgsSpinBox
+from qgis.PyQt.QtWidgets import QDialog, QProgressBar, QGridLayout, QLabel, QGroupBox
+from qgis.gui import (
+    QgsMapLayerComboBox,
+    QgsSpinBox,
+    QgsDoubleSpinBox,
+    QgsCollapsibleGroupBox,
+)
 from qgis.core import QgsFieldProxyModel, QgsMapLayerProxyModel
 
 from ..definitions.gui import Panels
@@ -21,15 +26,13 @@ class HazardRiskIndexPanel(BasePanel):
 
     def setup_panel(self) -> None:
 
-        # self.hri_btn_run
         self.dlg.hri_map_layer_cmb_bx_boundaries: QgsMapLayerComboBox
         self.dlg.hri_map_layer_cmb_bx_schools: QgsMapLayerComboBox
         self.dlg.hri_progress_bar: QProgressBar
         self.dlg.hri_risk_layer_gridlayout: QGridLayout
-
-        # self.dlg.hri_risk_layer_gridlayout.setRowCount(1)
-        # self.dlg.hri_risk_layer_gridlayout.setColumnCount(3)
-
+        self.dlg.groupbox_rasters: QgsCollapsibleGroupBox
+        # self.dlg.groupbox_risk_layers: QGroupBox
+        # self.dlg.groupbox_risk_layers.addLayout(self.dlg.hri_risk_layer_gridlayout)
         # self.dlg.hri_progress_bar.setMinimum(0)
         self.dlg.hri_progress_bar.setValue(0)
         self.dlg.hri_map_layer_cmb_bx_boundaries.setFilters(
@@ -41,31 +44,24 @@ class HazardRiskIndexPanel(BasePanel):
         self.dlg.hri_spn_bx_number_of_hazards: QgsSpinBox
         self.dlg.hri_spn_bx_number_of_hazards.setClearValue(1)
         self.dlg.hri_spn_bx_number_of_hazards.clear()
+        self.dlg.hri_spn_bx_number_of_hazards.setMinimum(1)
+        self.dlg.hri_spn_bx_number_of_hazards.setMaximum(6)
 
         self.dlg.hri_spn_bx_number_of_hazards.valueChanged.connect(
             self.__set_hri_risk_layer_grid
         )
-        """
-        self.hri_chck_bx_use_selected_boundary
-      
-        self.dlg.hri_chck_bx_use_selected_schools
-        self.hri_risk_layer_gridlayout"""
+
         self.dlg.hri_map_layer_cmb_bx_boundaries.setShowCrs(True)
         self.dlg.hri_map_layer_cmb_bx_schools.setShowCrs(True)
-
+        # self.hri_btn_run
         self.dlg.hri_btn_close.clicked.connect(self.__close_dialog)
-
-    # self.hri_map_layer_cmb_bx_boundaries.ma
 
     def __set_hri_risk_layer_grid(self, nr_of_risks):
 
         print(nr_of_risks)
+        self.__clear_gridlayout(self.dlg.hri_risk_layer_gridlayout)
 
-        """self.stored_queries: List[StoredQuery] = self.sq_factory.list_queries()  # type: ignore # noqa E501
-        self.tbl_wdgt_stored_queries.setRowCount(len(self.stored_queries))
-        self.tbl_wdgt_stored_queries.setColumnCount(3)"""
-
-        for i in range(nr_of_risks):
+        for i in range(1, nr_of_risks):
             self.dlg.hri_risk_layer_gridlayout.addWidget(
                 QLabel("Layer {}".format(i + 1), self.dlg), i, 0
             )
@@ -75,21 +71,22 @@ class HazardRiskIndexPanel(BasePanel):
                 1,
             )
             """self.dlg.hri_risk_layer_gridlayout.addWidget(
-                QLabel("Layer {}".format(i + 1), self.dlg), i, 1
+                self.dlg.hri_widget_list[i], i, 1
             )"""
-            self.dlg.hri_risk_layer_gridlayout.addWidget(
-                QLabel("Layer1", self.dlg), i, 2
-            )
-            # pass
-            """self.tbl_wdgt_stored_queries.setItem(i, 0, QTableWidgetItem(sq.title))
-            abstract_item = QTableWidgetItem(sq.abstract)
-            abstract_item.setToolTip(sq.abstract)
-            self.tbl_wdgt_stored_queries.setItem(i, 1, abstract_item)
-            id_item = QTableWidgetItem(sq.id)
-            id_item.setToolTip(sq.id)
-            self.tbl_wdgt_stored_queries.setItem(i, 2, id_item)"""
+            self.dlg.hri_risk_layer_gridlayout.addWidget(QgsDoubleSpinBox(), i, 2)
 
-        print("risks have changed")
+            self.dlg.hri_risk_layer_gridlayout.setRowMinimumHeight(i, 20)
+
+    def __clear_gridlayout(self, layout):
+        # does not work
+        # while layout.count() > 0:
+        #    layout.itemAt(0).setParent(None)
+
+        """for i in range(layout.rowCount()):
+        for j in range(layout.columnCount()):
+            layout.removeWidget(layout.itemAt(i, j))
+        for i in range(layout.rowCount() * layout.columnCount()):
+            layout.removeWidget(parent, layout.itemAt(i))"""
 
     def __close_dialog(self):
         self.dlg.hide()

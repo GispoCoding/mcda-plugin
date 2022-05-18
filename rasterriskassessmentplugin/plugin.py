@@ -120,7 +120,7 @@ class Plugin:
             text=Plugin.name,
             callback=self.run,
             parent=self.iface.mainWindow(),
-            add_to_toolbar=False,
+            add_to_toolbar=True,
         )
 
     def onClosePlugin(self) -> None:  # noqa N802
