@@ -4,14 +4,14 @@ description=This plugin generates a customized site classification raster layer 
 about=This algorithm aims at creating multiple intermediate suitability analyses for school sites, merging the results into a single, customizable multi-criteria suitability index. It's based on the paper by <a href="http://www.iiep.unesco.org/en/our-expertise/geospatial-data-educational-planning-and-management">Vargas Mesa, Sheldon, Gagnon (2022)</a>.
 
  Was this plugin useful? Let us know by sending a message to development@iiep.unesco.org
-version=0.1.4
+version=0.1.5
 qgisMinimumVersion=3.22
 author=IIEP-UNESCO & UNOSAT
 email=development@iiep.unesco.org
 tags=raster,processing,vector,polygon,decision,analysis,mcda,algorithm
-repository=https://github.com/iiepdev/mcda-plugin
-tracker=https://github.com/mcda-plugin/issues
-homepage=https://github.com/iiepdev/mcda-plugin
+repository=https://github.com/GispoCoding/mcda-plugin
+tracker=https://github.com/GispoCoding/mcda-plugin/issues
+homepage=https://github.com/iiepdev
 category=Analysis,Raster,Vector
 experimental=True
 deprecated=False
